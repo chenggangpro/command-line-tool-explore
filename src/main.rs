@@ -1,6 +1,6 @@
 use std::process::abort;
 
-use colour::e_red_ln;
+use colour::{e_blue_ln, e_red_ln};
 
 use crate::action::git_action::{GitAction, MIN_GIT_VERSION};
 use crate::support::prompt::get_flow_type_from_prompt;
@@ -26,8 +26,8 @@ fn main() {
             abort();
         }
     };
-    println!("Project Type :{}", project_type.to_string());
-    println!("Flow Type :{}", flow_type.to_string());
+    e_blue_ln!("Project Type :{}", project_type.to_string());
+    e_blue_ln!("Flow Type :{}", flow_type.to_string());
 
     let current_git_version = GitAction::get_git_version();
     if current_git_version.is_none() {

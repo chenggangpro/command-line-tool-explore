@@ -1,7 +1,7 @@
-use std::process::abort;
-
 #[allow(dead_code)]
 #[allow(unused)]
+use std::process::abort;
+
 use cmd_lib::{run_cmd, run_fun};
 use colour::{e_blue_ln, e_red_ln};
 use regex::Regex;
@@ -144,7 +144,9 @@ impl GitAction {
             is_remote_display, branch_name
         );
         let branch_to_verify: String = if is_remote {
-            String::from("origin/".to_owned() + branch_name.as_str())
+            let mut origin =  String::from("origin/");
+            origin.push_str(branch_name.as_str());
+            origin
         } else {
             branch_name
         };
