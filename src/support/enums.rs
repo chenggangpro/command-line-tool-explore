@@ -4,6 +4,7 @@ use std::str::FromStr;
 use inquire::{CustomUserError, InquireError};
 
 #[derive(Debug)]
+#[derive(PartialEq)]
 pub enum ProjectType {
     // Maven project
     Maven,
@@ -32,6 +33,7 @@ impl fmt::Display for ProjectType {
 }
 
 #[derive(Debug)]
+#[derive(PartialEq)]
 pub enum FlowType {
     //The Feature flow
     Feature,
@@ -65,6 +67,7 @@ impl fmt::Display for FlowType {
 }
 
 #[derive(Debug)]
+#[derive(PartialEq)]
 pub enum ReleaseType {
     // none
     None,

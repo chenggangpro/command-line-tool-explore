@@ -9,9 +9,9 @@ use version_compare::{Cmp, compare_to};
 
 pub const MIN_GIT_VERSION: &str = "2.23.0";
 
-pub struct GitAction {}
+pub struct GitExecution {}
 
-impl GitAction {
+impl GitExecution {
     pub fn get_git_version() -> Option<String> {
         let git_version_result = run_fun!(git --version);
         let result = match git_version_result {
@@ -34,13 +34,13 @@ impl GitAction {
         }
     }
 
-    pub fn check_git_version(current_git_version: String) -> bool {
+    pub fn check_git_version(current_git_version: &String) -> bool {
         compare_to(current_git_version, MIN_GIT_VERSION, Cmp::Ge).unwrap_or(false)
     }
 
-    pub fn switch_branch(branch_name: String) {
+    pub fn switch_branch(branch_name: &String) {
         e_blue_ln!("[GIT]Switch to branch : {}", branch_name);
-        run_cmd!("git switch" + branch_name)
+        run_cmd!(git switch $branch_name)
             .map_err(|err| {
                 e_red_ln!("{:?}", err);
                 abort();
@@ -48,10 +48,9 @@ impl GitAction {
             .ok();
     }
 
-    pub fn checkout_branch(branch_name: String) {
+    pub fn checkout_branch(branch_name: &String) {
         e_blue_ln!("[GIT]Checkout branch : {}", branch_name);
-        let name = branch_name;
-        run_cmd!(git checkout $name)
+        run_cmd!(git checkout $branch_name)
             .map_err(|err| {
                 e_red_ln!("{:?}", err);
                 abort();
@@ -72,10 +71,9 @@ impl GitAction {
         !result.is_empty()
     }
 
-    pub fn create_new_branch_from_current(branch_name: String) {
+    pub fn create_new_branch_from_current(branch_name: &String) {
         e_blue_ln!("[GIT]Create a new branch : {}", branch_name);
-        let name = branch_name;
-        run_cmd!(git branch $name)
+        run_cmd!(git branch $branch_name)
             .map_err(|err| {
                 e_red_ln!("{:?}", err);
                 abort();
@@ -83,13 +81,12 @@ impl GitAction {
             .ok();
     }
 
-    pub fn merge_to_current(source_branch_name: String) {
+    pub fn merge_to_current(source_branch_name: &String) {
         e_blue_ln!(
             "[GIT]Merge branch to current,Branch name : {}",
             source_branch_name
         );
-        let name = source_branch_name;
-        run_cmd!(git merge $name)
+        run_cmd!(git merge $source_branch_name)
             .map_err(|err| {
                 e_red_ln!("{:?}", err);
                 abort();
@@ -137,18 +134,18 @@ impl GitAction {
             .ok();
     }
 
-    pub fn is_branch_exists(branch_name: String, is_remote: bool) -> bool {
+    pub fn is_branch_exists(branch_name: &String, is_remote: bool) -> bool {
         let is_remote_display = if is_remote { "remote" } else { "local" };
         e_blue_ln!(
             "[GIT]Check if {} branch exists : {}",
             is_remote_display, branch_name
         );
         let branch_to_verify: String = if is_remote {
-            let mut origin =  String::from("origin/");
+            let mut origin = String::from("origin/");
             origin.push_str(branch_name.as_str());
             origin
         } else {
-            branch_name
+            branch_name.to_string()
         };
         let verify_result = run_fun!(git rev-parse --verify $branch_to_verify);
         let result = match verify_result {
@@ -161,10 +158,9 @@ impl GitAction {
         !result.starts_with("fatal:")
     }
 
-    pub fn push_new_branch_to_remote(branch_name: String) {
+    pub fn push_new_branch_to_remote(branch_name: &String) {
         print!("[GIT]Push new branch to remote : {}", branch_name);
-        let name = branch_name;
-        run_cmd!(git push --set-upstream origin $name)
+        run_cmd!(git push --set-upstream origin $branch_name)
             .map_err(|err| {
                 e_red_ln!("{:?}", err);
                 abort();
@@ -180,8 +176,7 @@ impl GitAction {
                 abort();
             })
             .ok();
-        let message_data = message;
-        run_cmd!(git commit -m $message_data)
+        run_cmd!(git commit -m $message)
             .map_err(|err| {
                 e_red_ln!("{:?}", err);
                 abort();
@@ -189,10 +184,9 @@ impl GitAction {
             .ok();
     }
 
-    pub fn tag(tag_name: String) {
+    pub fn tag(tag_name: &String) {
         e_blue_ln!("[GIT]Create new tag : {}", tag_name);
-        let tag = tag_name;
-        run_cmd!(git tag $tag)
+        run_cmd!(git tag $tag_name)
             .map_err(|err| {
                 e_red_ln!("{:?}", err);
                 abort();
@@ -216,5 +210,24 @@ impl GitAction {
             Ok(output) => Some(String::from(output)),
             Err(_err) => None,
         }
+    }
+
+    pub fn list_all_branch() -> Vec<String> {
+        let result = run_fun!(git branch | cut -c 3-);
+        let option_result = match result {
+            Ok(value) => Some(String::from(value)),
+            Err(_e) => None
+        };
+        let option_branch_vec = option_result
+            .map(|value| {
+                value.split("\n")
+                    .map(|s| s.to_string())
+                    .collect::<Vec<String>>()
+            });
+        if option_branch_vec.is_none() {
+            e_red_ln!("未获取到任何本地分支");
+            abort();
+        }
+        option_branch_vec.unwrap()
     }
 }
