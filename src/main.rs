@@ -67,24 +67,24 @@ fn main() {
         }
         git_flow_parameter.set_release_type(result_type);
     }
-    let push_to_remote_result = select_true_or_false("是否Push分支到远端?");
-    let push_to_remote = match push_to_remote_result {
-        Ok(choice) => choice,
-        Err(_) => {
-            e_red_ln!("未识别的选择项，请重试");
-            abort();
-        }
-    };
-    let push_tag_to_remote_result = select_true_or_false("是否Push所有Tag到远端?");
-    let push_tag_to_remote = match push_tag_to_remote_result {
-        Ok(choice) => choice,
-        Err(_) => {
-            e_red_ln!("未识别的选择项，请重试");
-            abort();
-        }
-    };
-    git_flow_parameter.set_need_push(push_to_remote);
-    git_flow_parameter.set_need_push_tag(push_tag_to_remote);
+    // let push_to_remote_result = select_true_or_false("是否Push分支到远端?");
+    // let push_to_remote = match push_to_remote_result {
+    //     Ok(choice) => choice,
+    //     Err(_) => {
+    //         e_red_ln!("未识别的选择项，请重试");
+    //         abort();
+    //     }
+    // };
+    // let push_tag_to_remote_result = select_true_or_false("是否Push所有Tag到远端?");
+    // let push_tag_to_remote = match push_tag_to_remote_result {
+    //     Ok(choice) => choice,
+    //     Err(_) => {
+    //         e_red_ln!("未识别的选择项，请重试");
+    //         abort();
+    //     }
+    // };
+    // git_flow_parameter.set_need_push(push_to_remote);
+    // git_flow_parameter.set_need_push_tag(push_tag_to_remote);
     git_flow_parameter.print_parameters();
     let confirm_result = confirm_execution_prompt();
     let confirm = match confirm_result {
