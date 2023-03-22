@@ -96,7 +96,7 @@ impl GitFlow for CommonGitFlowAction {
             abort();
         }
         let mut version_numbers = option_latest_version_number.unwrap()
-            .split("\\.")
+            .split(".")
             .map(|item| String::from(item))
             .collect::<Vec<String>>();
         version_numbers[2] = ((&version_numbers[2].parse::<i32>().unwrap()) + 1).to_string();
@@ -139,7 +139,7 @@ impl GitFlow for CommonGitFlowAction {
                 Util::substring_before(&sub, ".RELEASE")
             })
             .map(|last_version_number| {
-                let mut vec = last_version_number.split("\\.")
+                let mut vec = last_version_number.split(".")
                     .map(|item| String::from(item))
                     .collect::<Vec<String>>();
                 vec[1] = ((&vec[1].parse::<i32>().unwrap()) + 1).to_string();
@@ -175,7 +175,7 @@ impl GitFlow for CommonGitFlowAction {
         new_version_vec.push(&date_str);
         let new_tag_name = new_version_vec.join(".");
         GitExecution::tag(&new_tag_name);
-        let mut next_version_number_vec = to_release_version_number.split("\\.")
+        let mut next_version_number_vec = to_release_version_number.split(".")
             .map(|item| String::from(item))
             .collect::<Vec<String>>();
         next_version_number_vec[1] = ((&next_version_number_vec[1].parse::<i32>().unwrap()) + 1).to_string();
@@ -248,7 +248,7 @@ impl GitFlow for CommonGitFlowAction {
                 Util::substring_before(&sub, ".RELEASE")
             })
             .map(|last_version_number| {
-                let mut vec = last_version_number.split("\\.")
+                let mut vec = last_version_number.split(".")
                     .map(|item| String::from(item))
                     .collect::<Vec<String>>();
                 vec[2] = ((&vec[2].parse::<i32>().unwrap()) + 1).to_string();
@@ -288,7 +288,7 @@ impl GitFlow for CommonGitFlowAction {
         new_version_vec.push(&date_str);
         let new_tag_name = new_version_vec.join(".");
         GitExecution::tag(&new_tag_name);
-        let mut next_version_number_vec = to_release_version_number.split("\\.")
+        let mut next_version_number_vec = to_release_version_number.split(".")
             .map(|item| String::from(item))
             .collect::<Vec<String>>();
         next_version_number_vec[1] = ((&next_version_number_vec[1].parse::<i32>().unwrap()) + 1).to_string();

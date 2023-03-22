@@ -7,7 +7,7 @@ use crate::execution::git_execution::{GitExecution, MIN_GIT_VERSION};
 use crate::flow::git_flow::GitFlow;
 use crate::support::enums::{FlowType, ReleaseType};
 use crate::support::parameter::GitFlowParameter;
-use crate::support::prompt::{confirm_execution_prompt, get_branch_name_from_select, get_flow_type_from_prompt, get_release_type_from_prompt, select_true_or_false};
+use crate::support::prompt::{confirm_execution_prompt, get_branch_name_from_select, get_flow_type_from_prompt, get_release_type_from_prompt};
 use crate::support::prompt::get_package_type_from_prompt;
 
 pub mod execution;
