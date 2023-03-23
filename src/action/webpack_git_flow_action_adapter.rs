@@ -20,8 +20,8 @@ impl GitFlowActionAdapter for WebpackGitFlowActionAdapter {
         let paths = fs::read_dir("./").unwrap();
         let mut package_json_file_path: Option<String> = None;
         for path in paths {
-            let temp = path.unwrap().path().display().to_string();
-            if temp.eq("package.json") {
+            let temp = String::from(path.unwrap().file_name().to_str().unwrap());
+            if temp.ends_with("package.json") {
                 package_json_file_path = Option::Some(temp);
             }
         }
@@ -36,8 +36,8 @@ impl GitFlowActionAdapter for WebpackGitFlowActionAdapter {
         let paths = fs::read_dir("./").unwrap();
         let mut package_json_file_path: Option<String> = None;
         for path in paths {
-            let temp = path.unwrap().path().display().to_string();
-            if temp.eq("package.json") {
+            let temp = String::from(path.unwrap().file_name().to_str().unwrap());
+            if temp.ends_with("package.json") {
                 package_json_file_path = Option::Some(temp);
             }
         }
@@ -67,8 +67,8 @@ impl GitFlowActionAdapter for WebpackGitFlowActionAdapter {
         let paths = fs::read_dir("./").unwrap();
         let mut package_json_file_path: Option<String> = None;
         for path in paths {
-            let temp = path.unwrap().path().display().to_string();
-            if temp.eq("package.json") {
+            let temp = String::from(path.unwrap().file_name().to_str().unwrap());
+            if temp.ends_with("package.json") {
                 package_json_file_path = Option::Some(temp);
             }
         }
@@ -86,8 +86,8 @@ impl GitFlowActionAdapter for WebpackGitFlowActionAdapter {
             .lines()
             .map(|line| {
                 let string = line.unwrap();
-                if string.starts_with("\"version\":") {
-                    return "  \"version\": \"".to_owned() + new_version.as_str() + "\",";
+                if string.trim().starts_with("\"version\":") {
+                    return "    \"version\": \"".to_owned() + new_version.as_str() + "\",";
                 }
                 string
             })
