@@ -170,11 +170,12 @@ impl GitFlow for CommonGitFlowAction {
         }
         let date_str = Utc::now().format("%Y%m%d").to_string();
         let mut new_version_vec = Vec::new();
-        new_version_vec.push("v");
+        new_version_vec.push("");
         new_version_vec.push(&release_version);
         new_version_vec.push(&date_str);
         let new_tag_name = new_version_vec.join(".");
-        GitExecution::tag(&new_tag_name);
+        let actual_tag_name = String::from("v".to_owned() + new_tag_name.as_str());
+        GitExecution::tag(&actual_tag_name);
         let mut next_version_number_vec = to_release_version_number.split(".")
             .map(|item| String::from(item))
             .collect::<Vec<String>>();
@@ -227,11 +228,12 @@ impl GitFlow for CommonGitFlowAction {
         }
         let date_str = Utc::now().format("%Y%m%d").to_string();
         let mut new_version_vec = Vec::new();
-        new_version_vec.push("v");
+        new_version_vec.push("");
         new_version_vec.push(&release_version);
         new_version_vec.push(&date_str);
         let new_tag_name = new_version_vec.join(".");
-        GitExecution::tag(&new_tag_name);
+        let actual_tag_name = String::from("v".to_owned() + new_tag_name.as_str());
+        GitExecution::tag(&actual_tag_name);
         e_dark_yellow_ln!("Release flow of specific branch execution completed,you should merge master into other feature/test branch to keep code as same as mater's updates");
         e_green_ln!("Specific release flow execution completed,Release tag name : {}",new_tag_name);
     }
@@ -283,11 +285,12 @@ impl GitFlow for CommonGitFlowAction {
         }
         let date_str = Utc::now().format("%Y%m%d").to_string();
         let mut new_version_vec = Vec::new();
-        new_version_vec.push("v");
+        new_version_vec.push("");
         new_version_vec.push(&release_version);
         new_version_vec.push(&date_str);
         let new_tag_name = new_version_vec.join(".");
-        GitExecution::tag(&new_tag_name);
+        let actual_tag_name = String::from("v".to_owned() + new_tag_name.as_str());
+        GitExecution::tag(&actual_tag_name);
         let mut next_version_number_vec = to_release_version_number.split(".")
             .map(|item| String::from(item))
             .collect::<Vec<String>>();
