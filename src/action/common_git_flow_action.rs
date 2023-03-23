@@ -170,9 +170,8 @@ impl GitFlow for CommonGitFlowAction {
         }
         let date_str = Utc::now().format("%Y%m%d").to_string();
         let mut new_version_vec = Vec::new();
-        new_version_vec.push("");
-        new_version_vec.push(&release_version);
-        new_version_vec.push(&date_str);
+        new_version_vec.push(release_version.as_str());
+        new_version_vec.push(&date_str.as_str());
         let new_tag_name = new_version_vec.join(".");
         let actual_tag_name = String::from("v".to_owned() + new_tag_name.as_str());
         GitExecution::tag(&actual_tag_name);
@@ -193,7 +192,7 @@ impl GitFlow for CommonGitFlowAction {
         let next_feature_branch_name = Self::FEATURE_BRANCH.to_owned() + "/" + new_feature_version_number.as_str();
         GitExecution::create_new_branch_from_current(&next_feature_branch_name);
         GitExecution::checkout_branch(&next_feature_branch_name);
-        e_green_ln!("Feature release flow execution completed,Release tag name : {} , Next feature branch : {}" ,new_tag_name,next_feature_branch_name);
+        e_green_ln!("Feature release flow execution completed,Release tag name : {} , Next feature branch : {}" ,actual_tag_name,next_feature_branch_name);
     }
 
     fn do_release_specific(&self, release_source_branch: String) {
@@ -228,14 +227,13 @@ impl GitFlow for CommonGitFlowAction {
         }
         let date_str = Utc::now().format("%Y%m%d").to_string();
         let mut new_version_vec = Vec::new();
-        new_version_vec.push("");
-        new_version_vec.push(&release_version);
-        new_version_vec.push(&date_str);
+        new_version_vec.push(release_version.as_str());
+        new_version_vec.push(&date_str.as_str());
         let new_tag_name = new_version_vec.join(".");
         let actual_tag_name = String::from("v".to_owned() + new_tag_name.as_str());
         GitExecution::tag(&actual_tag_name);
         e_dark_yellow_ln!("Release flow of specific branch execution completed,you should merge master into other feature/test branch to keep code as same as mater's updates");
-        e_green_ln!("Specific release flow execution completed,Release tag name : {}",new_tag_name);
+        e_green_ln!("Specific release flow execution completed,Release tag name : {}",actual_tag_name);
     }
 
     fn do_release_hotfix(&self) {
@@ -285,9 +283,8 @@ impl GitFlow for CommonGitFlowAction {
         }
         let date_str = Utc::now().format("%Y%m%d").to_string();
         let mut new_version_vec = Vec::new();
-        new_version_vec.push("");
-        new_version_vec.push(&release_version);
-        new_version_vec.push(&date_str);
+        new_version_vec.push(release_version.as_str());
+        new_version_vec.push(&date_str.as_str());
         let new_tag_name = new_version_vec.join(".");
         let actual_tag_name = String::from("v".to_owned() + new_tag_name.as_str());
         GitExecution::tag(&actual_tag_name);
@@ -306,6 +303,6 @@ impl GitFlow for CommonGitFlowAction {
         GitExecution::switch_branch(&String::from(Self::DEVELOP_BRANCH));
         GitExecution::pull();
         GitExecution::merge_to_current(&String::from(Self::MASTER_BRANCH));
-        e_green_ln!("Hotfix release flow execution completed,Release tag name : {}" ,new_tag_name);
+        e_green_ln!("Hotfix release flow execution completed,Release tag name : {}" ,actual_tag_name);
     }
 }
