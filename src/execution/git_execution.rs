@@ -149,12 +149,15 @@ impl GitExecution {
         };
         let verify_result = run_fun!(git rev-parse --verify $branch_to_verify);
         let result = match verify_result {
-            Ok(result) => String::from(result),
+            Ok(result) => Some(String::from(result)),
             Err(_) => {
-                String::from("")
+                None
             }
         };
-        !result.starts_with("fatal:")
+        if result.is_none() {
+            return false;
+        }
+        !result.unwrap().starts_with("fatal:")
     }
 
     pub fn push_new_branch_to_remote(branch_name: &String) {
