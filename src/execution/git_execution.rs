@@ -150,9 +150,8 @@ impl GitExecution {
         let verify_result = run_fun!(git rev-parse --verify $branch_to_verify);
         let result = match verify_result {
             Ok(result) => String::from(result),
-            Err(e) => {
-                e_red_ln!("Check branch exists error : {}", e);
-                abort();
+            Err(_) => {
+                String::from("")
             }
         };
         !result.starts_with("fatal:")
