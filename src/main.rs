@@ -112,7 +112,7 @@ fn main() {
             return;
         }
         if ReleaseType::Hotfix.eq(&selected_release_type) {
-            common_git_flow_action.do_hotfix();
+            common_git_flow_action.do_release_hotfix();
             return;
         }
         if ReleaseType::Specific.eq(&selected_release_type) {
