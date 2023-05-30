@@ -143,7 +143,7 @@ impl GitFlow for CommonGitFlowAction {
                     .map(|item| String::from(item))
                     .collect::<Vec<String>>();
                 vec[1] = ((&vec[1].parse::<i32>().unwrap()) + 1).to_string();
-                vec[2] = 0;
+                vec[2] = String::from("0");
                 vec.join(".")
             })
             .unwrap_or(String::from("1.0.0"));
